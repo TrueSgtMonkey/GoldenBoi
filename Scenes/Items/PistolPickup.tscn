@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/Models/OBJ format/weapon_gun.obj" type="ArrayMesh" id=1]
+[ext_resource path="res://Scenes/Items/PistolPickup.gd" type="Script" id=2]
+
+[sub_resource type="SphereShape" id=1]
+
+[node name="PistolPickup" type="Area"]
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = ExtResource( 1 )
+material/0 = null
+material/1 = null
+material/2 = null
+material/3 = null
+
+[connection signal="body_entered" from="." to="." method="_on_PistolPickup_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_PistolPickup_body_exited"]

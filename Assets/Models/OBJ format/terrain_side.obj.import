@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/terrain_side.obj-5b128834ed98511a5df2e52e1a032970.mesh"
+
+[deps]
+
+files=[ "res://.import/terrain_side.obj-5b128834ed98511a5df2e52e1a032970.mesh" ]
+
+source_file="res://Assets/Models/OBJ format/terrain_side.obj"
+dest_files=[ "res://.import/terrain_side.obj-5b128834ed98511a5df2e52e1a032970.mesh", "res://.import/terrain_side.obj-5b128834ed98511a5df2e52e1a032970.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286

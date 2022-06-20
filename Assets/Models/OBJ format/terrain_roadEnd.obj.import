@@ -1,0 +1,20 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/terrain_roadEnd.obj-870aee3a5e0423406297b71afb00996a.mesh"
+
+[deps]
+
+files=[ "res://.import/terrain_roadEnd.obj-870aee3a5e0423406297b71afb00996a.mesh" ]
+
+source_file="res://Assets/Models/OBJ format/terrain_roadEnd.obj"
+dest_files=[ "res://.import/terrain_roadEnd.obj-870aee3a5e0423406297b71afb00996a.mesh", "res://.import/terrain_roadEnd.obj-870aee3a5e0423406297b71afb00996a.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+octahedral_compression=true
+optimize_mesh_flags=4286

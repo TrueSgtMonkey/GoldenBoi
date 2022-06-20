@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://BAUHS93.TTF" type="DynamicFontData" id=1]
+[ext_resource path="res://Scenes/Player/HUD.gd" type="Script" id=2]
+[ext_resource path="res://Assets/crosshair.png" type="Texture" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 64
+outline_size = 2
+outline_color = Color( 0.847059, 0.415686, 0.415686, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 7
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 256, 256 )
+
+[node name="HUD" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+
+[node name="CenterContainer2" type="CenterContainer" parent="."]
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 40.0
+margin_bottom = 40.0
+mouse_filter = 2
+use_top_left = true
+
+[node name="GoldCount" type="Label" parent="CenterContainer2"]
+margin_left = -86.0
+margin_top = -37.0
+margin_right = 85.0
+margin_bottom = 36.0
+custom_colors/font_color = Color( 0.501961, 0.145098, 0.145098, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "Gold: "
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 40.0
+margin_bottom = 40.0
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer"]
+margin_left = 852.0
+margin_top = 432.0
+margin_right = 1108.0
+margin_bottom = 688.0
+mouse_filter = 2
+texture = SubResource( 2 )
+stretch_mode = 4
