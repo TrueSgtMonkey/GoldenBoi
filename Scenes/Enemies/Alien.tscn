@@ -1,12 +1,12 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Assets/Models/OBJ format/alien.obj" type="ArrayMesh" id=1]
-[ext_resource path="res://Scenes/Enemies/Enemy.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/Enemies/Alien.gd" type="Script" id=2]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.242987, 0.166206, 0.398808 )
 
-[node name="Enemy" type="KinematicBody"]
+[node name="Alien" type="KinematicBody"]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource( 2 )

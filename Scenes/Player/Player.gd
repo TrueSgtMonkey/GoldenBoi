@@ -1,13 +1,15 @@
 extends KinematicBody
 
+const GRAVITY := 30
+
 export (float) var speed = 6.0
 export (float) var mouseSensitivity = 0.007
 export (float) var jumpSpeed = 13.5
 export (float) var cutHeight = 0.35
 export (float) var sprintMultiplier = 1.75
 export (int) var gold = 1000
-
-const gravity := 30
+export (bool) var noclipActive = false setget noclip, getNoClip
+export (bool) var flyActive = false
 
 var velocity := Vector3()
 var colliderVelocity := Vector3()
@@ -28,6 +30,8 @@ func _ready():
 	groundedTimer = addTimer(groundedTimer, 0.2, "coyoteOut")
 	jumpTimer = addTimer(jumpTimer, 0.2, "jumpBufferOut")
 	$HUD.updateGoldDisp(gold)
+	if noclipActive:
+		$CollisionShape.disabled = true
 	
 func _physics_process(delta):
 	desiredVelocity = (move().normalized() * speed * 
@@ -36,20 +40,24 @@ func _physics_process(delta):
 	var colVel = colliderVelocity
 	
 	if !is_on_floor():
-		velocity.y -= gravity * delta
-		if abs(desiredVelocity.x) > 0:
-			velocity.x = desiredVelocity.x
-		if abs(desiredVelocity.z) > 0:
-			velocity.z = desiredVelocity.z
+		if !noclipActive && !flyActive:
+			velocity.y -= GRAVITY * delta
+			if abs(desiredVelocity.x) > 0:
+				velocity.x = desiredVelocity.x
+			if abs(desiredVelocity.z) > 0:
+				velocity.z = desiredVelocity.z
+		else:
+			velocity = desiredVelocity
 	else:
 		velocity = desiredVelocity
 		grounded = true
 		groundedTimer.start()
 		hasJumped = false
 		colVel *= delta
-		if (colliderVelocity == Vector3() || 
-			(colliderVelocity.x != 0 || colliderVelocity.z != 0)):
-			velocity.y = 0
+		if !noclipActive && !flyActive:
+			if (colliderVelocity == Vector3() || 
+				(colliderVelocity.x != 0 || colliderVelocity.z != 0)):
+				velocity.y = 0
 		
 	if grounded && isJumping && !hasJumped:
 		moving = true
@@ -60,7 +68,10 @@ func _physics_process(delta):
 		velocity.y *= -0.25
 	
 	slope(get_slide_count())
-	move_and_slide(velocity + colVel, Vector3.UP, true)
+	if noclipActive || flyActive:
+		move_and_slide(velocity, Vector3.UP, true)
+	else:
+		move_and_slide(velocity + colVel, Vector3.UP, true)
 	
 func _input(event):
 	if event.is_action_released("JUMP"):
@@ -77,24 +88,38 @@ func _unhandled_input(event):
 func move():
 	var movement := Vector3()
 	moving = false
+	if !CommandLine.visible:
+		
+		isSprinting = Input.is_action_pressed("SPRINTING")
+		
+		# fly or move horizontally based on camera and pivot
+		if noclipActive || flyActive:
+			$Pivot/Camera.rotation.y = $Pivot.rotation.y
+			movement = moveWithKeys(movement, $Pivot/Camera)
+			$Pivot/Camera.rotation.y = 0
+		else:
+			movement = moveWithKeys(movement, $Pivot)
+			
+		if Input.is_action_pressed("JUMP") && !jumpPressed:
+			jumpTimer.start()
+			isJumping = true
+			jumpPressed = true
+	return movement
+	
+func moveWithKeys(movement : Vector3, pivotRef : Spatial):
 	if Input.is_action_pressed("FORWARD"):
-		movement -= $Pivot.transform.basis.z
+		movement -= pivotRef.transform.basis.z
 		moving = true
 	if Input.is_action_pressed("BACKWARD"):
-		movement += $Pivot.transform.basis.z 
+		movement += pivotRef.transform.basis.z 
 		moving = true
 	if Input.is_action_pressed("LEFT"):
-		movement -= $Pivot.transform.basis.x 
+		movement -= pivotRef.transform.basis.x 
 		moving = true
 	if Input.is_action_pressed("RIGHT"):
-		movement += $Pivot.transform.basis.x 
+		movement += pivotRef.transform.basis.x 
 		moving = true
-	isSprinting = Input.is_action_pressed("SPRINTING")
-	
-	if Input.is_action_pressed("JUMP") && !jumpPressed:
-		jumpTimer.start()
-		isJumping = true
-		jumpPressed = true
+		
 	return movement
 	
 func slope(slides : int):
@@ -147,3 +172,13 @@ func damage(damage : int):
 func rayShot(vec : Vector3):
 	var space_state = get_world().direct_space_state
 	return space_state.intersect_ray(global_transform.origin, vec, [self])
+	
+func noclip(_noclip : bool = false):
+	noclipActive = !noclipActive
+	$CollisionShape.disabled = noclipActive
+	
+func getNoClip():
+	return noclipActive
+	
+func fly():
+	flyActive = !flyActive

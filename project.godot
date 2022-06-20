@@ -214,12 +214,12 @@ config/icon="res://icon.png"
 
 Globals="*res://Globals.tscn"
 Events="*res://Events.tscn"
+CommandLine="*res://CommandLine.tscn"
 
 [display]
 
-window/size/width=1920
-window/size/height=1080
-window/size/fullscreen=true
+window/size/width=1280
+window/size/height=720
 
 [editor_plugins]
 
@@ -265,6 +265,11 @@ SPRINTING={
 SHOOT={
 "deadzone": 0.5,
 "events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+COMMAND_LINE={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":96,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 

@@ -8,7 +8,7 @@ var velocity := Vector3()
 
 func _ready():
 	global_transform.basis = Globals.cameraRef.global_transform.basis
-	dir = -transform.basis.z
+	dir = -global_transform.basis.z
 	velocity = dir.normalized() * speed
 	
 func _physics_process(delta):
